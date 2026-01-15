@@ -5,7 +5,8 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "esbuild src/main.ts --bundle --platform=node --target=node20 --outdir=dist --external:electron",
-    "start": "npm run build && electron .",
+    "build:renderer": "mkdir -p dist/renderer && cp -R src/renderer/* dist/renderer/",
+    "start": "npm run build && npm run build:renderer && electron .",
     "dist": "npm run build && electron-builder",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
@@ -33,14 +34,16 @@
       "output": "release"
     },
     "files": [
-      "dist/**"
+      "dist/**",
+      "src/renderer/**"
     ],
     "extraMetadata": {
       "main": "dist/main.js"
     },
     "asar": true,
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "assets/icons/icon.icns"
     }
   }
 }

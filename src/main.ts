@@ -1,4 +1,5 @@
 import { app, BrowserWindow, session } from "electron";
+import path from "node:path";
 
 const START_URL = "https://mvpstar.ai/vibe-coding/";
 const SESSION_PARTITION = "persist:mvpstar";
@@ -25,15 +26,19 @@ const createWindow = () => {
     width: 1280,
     height: 800,
     show: true,
+    titleBarStyle: "hiddenInset",
+    trafficLightPosition: { x: 14, y: 12 },
+    backgroundColor: "#1e1e1e",
     webPreferences: {
       partition: SESSION_PARTITION,
-      contextIsolation: true,
-      nodeIntegration: false,
-      sandbox: true
+      webviewTag: true,
+      nodeIntegration: true,
+      contextIsolation: false,
+      sandbox: false
     }
   });
 
-  mainWindow.loadURL(START_URL);
+  mainWindow.loadFile(path.join(__dirname, "renderer", "index.html"));
 };
 
 app.whenReady().then(() => {

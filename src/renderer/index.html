@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1e1e1e" />
+    <title>MVPStar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="toolbar" id="toolbar">
+      <div class="toolbar-content">
+        <button class="toolbar-button" id="refreshButton" aria-label="Refresh">↻</button>
+        <span class="address-display" id="addressDisplay"></span>
+      </div>
+    </div>
+    <div class="content">
+      <webview
+        id="webview"
+        data-start-url="https://mvpstar.ai/vibe-coding/"
+        partition="persist:mvpstar"
+      ></webview>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>
