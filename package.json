@@ -7,7 +7,7 @@
     "build": "esbuild src/main.ts --bundle --platform=node --target=node20 --outdir=dist --external:electron",
     "build:renderer": "mkdir -p dist/renderer && cp -R src/renderer/* dist/renderer/",
     "start": "npm run build && npm run build:renderer && electron .",
-    "dist": "npm run build && electron-builder",
+    "dist": "npm run build && npm run build:renderer && electron-builder",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
@@ -34,8 +34,7 @@
       "output": "release"
     },
     "files": [
-      "dist/**",
-      "src/renderer/**"
+      "dist/**"
     ],
     "extraMetadata": {
       "main": "dist/main.js"
