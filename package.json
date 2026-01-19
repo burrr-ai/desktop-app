@@ -46,6 +46,14 @@
       "extendInfo": {
         "NSUserNotificationAlertStyle": "alert"
       }
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "burrr-ai",
+      "repo": "desktop-app"
     }
+  },
+  "dependencies": {
+    "electron-updater": "^6.7.3"
   }
 }

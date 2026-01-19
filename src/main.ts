@@ -1,4 +1,5 @@
-import { app, BrowserWindow, session, ipcMain, Notification } from "electron";
+import { app, BrowserWindow, session, ipcMain, Notification, dialog } from "electron";
+import { autoUpdater } from "electron-updater";
 import path from "node:path";
 
 const START_URL = "https://mvpstar.ai/vibe-coding/";
@@ -53,6 +54,32 @@ app.whenReady().then(() => {
 
   configurePermissions();
   createWindow();
+
+  // Auto updater setup
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on("update-downloaded", (info) => {
+    dialog
+      .showMessageBox({
+        type: "info",
+        title: "업데이트 준비 완료",
+        message: `새 버전 ${info.version}이 다운로드되었습니다. 지금 재시작하시겠습니까?`,
+        buttons: ["지금 재시작", "나중에"]
+      })
+      .then((result) => {
+        if (result.response === 0) {
+          autoUpdater.quitAndInstall();
+        }
+      });
+  });
+
+  autoUpdater.on("error", (err) => {
+    console.error("Auto updater error:", err);
+  });
+
+  // Check for updates
+  autoUpdater.checkForUpdatesAndNotify();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
