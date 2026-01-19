@@ -88,7 +88,10 @@ app.whenReady().then(() => {
       })
       .then((result) => {
         if (result.response === 0) {
-          autoUpdater.quitAndInstall();
+          setImmediate(() => {
+            app.removeAllListeners("window-all-closed");
+            autoUpdater.quitAndInstall(false, true);
+          });
         }
       });
   });
