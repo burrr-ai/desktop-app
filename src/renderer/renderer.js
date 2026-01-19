@@ -33,18 +33,6 @@ const storeUrl = (url) => {
   }
 };
 
-const normalizeUrl = (url) => {
-  if (!url) {
-    return START_URL;
-  }
-
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-
-  return `https://${url}`;
-};
-
 const updateAddress = (url) => {
   if (!url || !url.startsWith(START_URL)) return;
 
@@ -121,8 +109,12 @@ const applyThemeColor = (color) => {
   refreshButton.style.color = mutedColor;
   addressDisplay.style.color = mutedColor;
 
-  refreshButton.onmouseenter = () => { refreshButton.style.color = textColor; };
-  refreshButton.onmouseleave = () => { refreshButton.style.color = mutedColor; };
+  refreshButton.onmouseenter = () => {
+    refreshButton.style.color = textColor;
+  };
+  refreshButton.onmouseleave = () => {
+    refreshButton.style.color = mutedColor;
+  };
 };
 
 const isValidColor = (color) => {
@@ -161,11 +153,6 @@ const syncToolbarTheme = async () => {
 const handleThemeColorChange = (event) => {
   const color = event.themeColor;
   applyThemeColor(isValidColor(color) ? color : DEFAULT_COLOR);
-};
-
-const loadUrl = (url) => {
-  const normalized = normalizeUrl(url);
-  webview.src = normalized;
 };
 
 refreshButton.addEventListener("click", () => {

@@ -14,6 +14,16 @@ module.exports = {
       parserOptions: {
         sourceType: "module"
       }
+    },
+    {
+      files: ["src/renderer/**/*.js"],
+      env: {
+        browser: true,
+        node: true
+      },
+      rules: {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
   ]
 };

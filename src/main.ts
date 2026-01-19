@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session, ipcMain, Notification, dialog } from "electron";
+import { app, BrowserWindow, session, ipcMain, Notification, dialog, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import path from "node:path";
 
@@ -54,6 +54,25 @@ app.whenReady().then(() => {
 
   configurePermissions();
   createWindow();
+
+  // Handle external links from webview
+  app.on("web-contents-created", (_event, contents) => {
+    console.log("[web-contents-created] type:", contents.getType());
+
+    contents.on("will-navigate", (event, url) => {
+      console.log("[will-navigate]", url);
+      if (!url.startsWith(START_URL)) {
+        event.preventDefault();
+        shell.openExternal(url);
+      }
+    });
+
+    contents.setWindowOpenHandler(({ url }) => {
+      console.log("[setWindowOpenHandler]", url);
+      shell.openExternal(url);
+      return { action: "deny" };
+    });
+  });
 
   // Auto updater setup
   autoUpdater.autoDownload = true;
