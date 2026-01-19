@@ -1,3 +1,6 @@
+const { ipcRenderer } = require("electron");
+const path = require("path");
+
 const addressDisplay = document.getElementById("addressDisplay");
 const refreshButton = document.getElementById("refreshButton");
 const webview = document.getElementById("webview");
@@ -192,5 +195,23 @@ webview.addEventListener("dom-ready", () => {
 
 webview.addEventListener("did-change-theme-color", handleThemeColorChange);
 
+// Forward notifications from webview to main process
+webview.addEventListener("console-message", (event) => {
+  if (event.message.startsWith("__ELECTRON_NOTIFICATION__")) {
+    try {
+      const data = JSON.parse(event.message.replace("__ELECTRON_NOTIFICATION__", ""));
+      ipcRenderer.send("show-notification", data);
+    } catch (e) {
+      // ignore parse errors
+    }
+  }
+});
+
+// Set webview preload with absolute path (must be before src)
+const preloadPath = path.join(__dirname, "preload-webview.js");
+webview.setAttribute("preload", `file://${preloadPath}`);
+webview.setAttribute("webpreferences", "contextIsolation=no");
+
+// Now load the URL
 const lastUrl = getStoredUrl();
-loadUrl(lastUrl);
+webview.src = lastUrl;

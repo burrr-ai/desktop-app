@@ -1,6 +1,6 @@
 {
   "name": "mvpstar-desktop-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "dist/main.js",
   "scripts": {
@@ -42,7 +42,10 @@
     "asar": true,
     "mac": {
       "category": "public.app-category.productivity",
-      "icon": "assets/icons/icon.icns"
+      "icon": "assets/icons/icon.icns",
+      "extendInfo": {
+        "NSUserNotificationAlertStyle": "alert"
+      }
     }
   }
 }

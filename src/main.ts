@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from "electron";
+import { app, BrowserWindow, session, ipcMain, Notification } from "electron";
 import path from "node:path";
 
 const START_URL = "https://mvpstar.ai/vibe-coding/";
@@ -45,6 +45,11 @@ app.whenReady().then(() => {
   if (process.platform === "win32") {
     app.setAppUserModelId("ai.mvpstar.desktop");
   }
+
+  // IPC handler for notifications from renderer/webview
+  ipcMain.on("show-notification", (_event, { title, body }) => {
+    new Notification({ title, body }).show();
+  });
 
   configurePermissions();
   createWindow();
