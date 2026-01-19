@@ -60,8 +60,10 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout tag
         uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.check-version.outputs.version }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
