@@ -61,14 +61,52 @@ app.whenReady().then(() => {
 
     contents.on("will-navigate", (event, url) => {
       console.log("[will-navigate]", url);
-      if (!url.startsWith(START_URL)) {
-        event.preventDefault();
-        shell.openExternal(url);
+
+      // 내부 도메인 및 OAuth 관련 URL은 앱 내에서 허용
+      const allowedDomains = [
+        "mvpstar.ai",
+        "auth.mvpstar.ai",
+        "accounts.google.com",
+        "appleid.apple.com",
+        "kauth.kakao.com",
+        "accounts.kakao.com",
+        "nid.naver.com"
+      ];
+
+      try {
+        const urlObj = new URL(url);
+        if (allowedDomains.some((domain) => urlObj.hostname.includes(domain))) {
+          return; // 앱 내에서 진행
+        }
+      } catch {
+        // invalid URL
       }
+
+      event.preventDefault();
+      shell.openExternal(url);
     });
 
     contents.setWindowOpenHandler(({ url }) => {
       console.log("[setWindowOpenHandler]", url);
+
+      // OAuth 로그인 관련 URL은 Electron 팝업으로 허용
+      const oauthDomains = [
+        "accounts.google.com",
+        "appleid.apple.com",
+        "kauth.kakao.com",
+        "accounts.kakao.com",
+        "nid.naver.com"
+      ];
+
+      try {
+        const urlObj = new URL(url);
+        if (oauthDomains.some((domain) => urlObj.hostname.includes(domain))) {
+          return { action: "allow" };
+        }
+      } catch {
+        // invalid URL, fall through to open externally
+      }
+
       shell.openExternal(url);
       return { action: "deny" };
     });
