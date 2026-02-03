@@ -6,7 +6,7 @@ const refreshButton = document.getElementById("refreshButton");
 const webview = document.getElementById("webview");
 const toolbar = document.getElementById("toolbar");
 
-const START_URL = "https://mvpstar.ai/vibe-coding/";
+const START_URL = "https://mvpstar.ai/";
 const STORAGE_KEY = "lastUrl";
 
 const getStoredUrl = () => {
@@ -39,10 +39,8 @@ const updateAddress = (url) => {
   try {
     const parsed = new URL(url);
     const path = parsed.pathname + parsed.search + parsed.hash;
-    if (path && path !== "/") {
-      addressDisplay.textContent = path;
-      storeUrl(url);
-    }
+    addressDisplay.textContent = path || "/";
+    storeUrl(url);
   } catch {
     // ignore invalid URLs
   }
