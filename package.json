@@ -1,6 +1,6 @@
 {
   "name": "mvpstar-desktop-app",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "private": true,
   "main": "dist/main.js",
   "scripts": {
@@ -47,7 +47,9 @@
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
-      "notarize": true,
+      "notarize": {
+        "teamId": "${env.APPLE_TEAM_ID}"
+      },
       "extendInfo": {
         "NSUserNotificationAlertStyle": "alert"
       }
