@@ -9,8 +9,6 @@ const toolbar = document.getElementById("toolbar");
 const START_URL = "https://mvpstar.ai/";
 const STORAGE_KEY = "lastUrl";
 
-let initialLoadComplete = false;
-
 const getStoredUrl = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -24,10 +22,6 @@ const getStoredUrl = () => {
 };
 
 const storeUrl = (url) => {
-  if (!initialLoadComplete) {
-    return;
-  }
-
   if (!url.startsWith(START_URL)) {
     return;
   }
@@ -45,10 +39,8 @@ const updateAddress = (url) => {
   try {
     const parsed = new URL(url);
     const path = parsed.pathname + parsed.search + parsed.hash;
-    if (path && path !== "/") {
-      addressDisplay.textContent = path;
-      storeUrl(url);
-    }
+    addressDisplay.textContent = path || "/";
+    storeUrl(url);
   } catch {
     // ignore invalid URLs
   }
@@ -169,7 +161,6 @@ webview.addEventListener("did-finish-load", () => {
   const url = webview.getURL();
   updateAddress(url);
   syncToolbarTheme();
-  initialLoadComplete = true;
 });
 
 webview.addEventListener("did-navigate", (event) => {
