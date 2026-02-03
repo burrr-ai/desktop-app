@@ -6,8 +6,10 @@ const refreshButton = document.getElementById("refreshButton");
 const webview = document.getElementById("webview");
 const toolbar = document.getElementById("toolbar");
 
-const START_URL = "https://mvpstar.ai/vibe-coding/";
+const START_URL = "https://mvpstar.ai/";
 const STORAGE_KEY = "lastUrl";
+
+let initialLoadComplete = false;
 
 const getStoredUrl = () => {
   try {
@@ -22,6 +24,10 @@ const getStoredUrl = () => {
 };
 
 const storeUrl = (url) => {
+  if (!initialLoadComplete) {
+    return;
+  }
+
   if (!url.startsWith(START_URL)) {
     return;
   }
@@ -163,6 +169,7 @@ webview.addEventListener("did-finish-load", () => {
   const url = webview.getURL();
   updateAddress(url);
   syncToolbarTheme();
+  initialLoadComplete = true;
 });
 
 webview.addEventListener("did-navigate", (event) => {

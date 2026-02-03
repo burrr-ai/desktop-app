@@ -2,7 +2,7 @@ import { app, BrowserWindow, session, ipcMain, Notification, dialog, shell } fro
 import { autoUpdater } from "electron-updater";
 import path from "node:path";
 
-const START_URL = "https://mvpstar.ai/vibe-coding/";
+const START_URL = "https://mvpstar.ai/";
 const SESSION_PARTITION = "persist:mvpstar";
 
 const configurePermissions = () => {
