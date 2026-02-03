@@ -1,6 +1,6 @@
 {
   "name": "mvpstar-desktop-app",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "private": true,
   "main": "dist/main.js",
   "scripts": {
@@ -43,6 +43,11 @@
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icons/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "notarize": true,
       "extendInfo": {
         "NSUserNotificationAlertStyle": "alert"
       }
